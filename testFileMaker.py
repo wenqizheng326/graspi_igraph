@@ -7,14 +7,21 @@ def testFileMaker(num,depth,textFileName):
 
         f.write(str(num)+" "+str(num)+ " "+str(depth)+"\n")
 
-        for x in range(num/2):
-            for y in range((num-1)/2):
-                f.write(str(random.randint(0,1)) + " ")
-            f.write(str(random.randint(0,1)) + "\n")
+        for x in range(num):
+            for y in range((num-1)):
+                if x < num/2:
+                    f.write("1" + " ")
+                else:
+                    f.write("0" + " ")
+
+            if x < num/2:
+                f.write("1" + "\n")
+            else:
+                f.write("0" + "\n")
 
     f.close()
 
     return "success"
 
-testFileMaker(1000,1,"testFile-1000.txt")
+testFileMaker(1000,1,"testFile-1000-2D.txt")
         

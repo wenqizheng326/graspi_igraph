@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 def edge(fileName):
     line = []
     n = ""
+    dimension = 0
     with open(fileName,'r') as file:
         line = file.readline()
         for i in line:
@@ -18,7 +19,7 @@ def edge(fileName):
                 n += i
             elif i == ' ':
                 break
-
+        dimension = int(line[len(line)-2])
     num = int(n)
     edge = []
     secondToLastRow = num**2 - num
@@ -103,7 +104,7 @@ def generateGraph(file):
 # generateGraph("testFile-500.txt")     # 967ms without 
 # generateGraph("testFile-1000.txt")      # 2.522 secs without
 # generateGraph("out.txt")
-g = generateGraph("testFile-10.txt")
+g = generateGraph("testFile-10-2D.txt")
 '''********* Filtering the Graph **********'''
 def filterGraph(graph):
     edgeList = graph.get_edgelist()
@@ -141,7 +142,7 @@ def filterGraph(graph):
     plt.show() #displays matplot graph
 
     numCC = filteredGraph.connected_components()
-    print(numCC)
+    # print(numCC)
 
  
 filterGraph(g)
