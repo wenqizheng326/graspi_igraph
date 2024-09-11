@@ -7,8 +7,8 @@ def testFileMaker(num,depth,textFileName):
 
         f.write(str(num)+" "+str(num)+ " "+str(depth)+"\n")
 
-        for x in range(num):
-            for y in range(num-1):
+        for x in range(num/2):
+            for y in range((num-1)/2):
                 f.write(str(random.randint(0,1)) + " ")
             f.write(str(random.randint(0,1)) + "\n")
 
