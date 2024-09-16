@@ -2,6 +2,9 @@ import igraph as ig
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+import time 
+import psutil
+import os
 
 
 # Function to convert 0-based index to 1-based
@@ -168,9 +171,17 @@ def filterGraph(graph):
     return filteredGraph
 
 
+startTime = time.time()
+g = generateGraph("2D-testFiles/testFile-10-2D.txt")
+endTime = time.time()
+print(f"time: {endTime-startTime}")
 
+process = psutil.Process(os.getpid())
+memBefore = process.memory_info().rss 
+g = generateGraph("2D-testFiles/testFile-10-2D.txt")
+memAfter = process.memory_info().rss / 1024 
+print(f"memory: {memAfter-memBefore}")
 
-g = generateGraph("testFiles/testFile-1000-3D.txt")
 # fg = filterGraph(g)
 # numCC = fg.connected_components()
 # print(numCC)
