@@ -1,5 +1,7 @@
 import igraph as ig
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
 
 
 # Function to convert 0-based index to 1-based
@@ -11,6 +13,7 @@ import matplotlib.pyplot as plt
 def edge(fileName):
     line = []
     n = ""
+    d = ""
     dimension = 0
     with open(fileName,'r') as file:
         line = file.readline()
@@ -19,29 +22,47 @@ def edge(fileName):
                 n += i
             elif i == ' ':
                 break
-        dimension = int(line[len(line)-2])
+        for i in reversed(line):
+            if i != ' ' and i != '\n':
+                d += i
+            elif i == ' ':
+                break
+            
+        dimension = int(d[::-1])
+  
     num = int(n)
     edge = []
     secondToLastRow = num**2 - num
-    for x in range(0,secondToLastRow,num):
-        x_num = x + num
+    offset = 0
 
-        edge.append([x,x_num])
-        edge.append([x,x_num+1])
-        edge.append([x,(x+1)])
 
-        for i in range(1,num):
-            xi = x+i
-            edge.append([xi,(xi+num)])
-            edge.append([(xi),(xi+(num-1))]) # right to left diagonals
+    for z in range(dimension):
+        offset = z * (num**2)
+        for y in range(num**2):
+            if z < (dimension - 1):
+                edge.append([y+offset,(y+offset+(num**2))])
 
-            if i < num-1:
-                edge.append([xi,xi+1+num]) # left to right diagonals bottom row
-                edge.append([xi,xi+1]) # horizontal except first column
-                if x == secondToLastRow - num:
-                    edge.append([secondToLastRow+i,secondToLastRow+i+1]) # horizontal last row except first column
-      
-    edge.append([secondToLastRow,secondToLastRow+1]) # horizontal last row first column
+
+        for x in range(0,secondToLastRow,num):
+            x_num = x + num + offset
+            x_offset = x+offset
+
+            edge.append([x_offset,x_num])
+            edge.append([x_offset,x_num+1])
+            edge.append([x_offset,(x_offset+1)])
+
+            for i in range(1,num):
+                xi = x+i+offset
+                edge.append([xi,(xi+num)])
+                edge.append([(xi),(xi+(num-1))]) # right to left diagonals
+
+                if i < num-1:
+                    edge.append([xi,xi+1+num]) # left to right diagonals bottom row
+                    edge.append([xi,xi+1]) # horizontal except first column
+                    if x == secondToLastRow - num:
+                        edge.append([secondToLastRow+i+offset,secondToLastRow+offset+i+1]) # horizontal last row except first column
+            
+    edge.append([(secondToLastRow+offset),(secondToLastRow+1+offset)]) # horizontal last row first column
 
     return edge
 
@@ -63,7 +84,11 @@ def vertexColors(fileName):
 '''********* Constructing the Graph **********'''
 def generateGraph(file):
     edges = edge(file)
-    labels = vertexColors(file) 
+    labels = vertexColors(file)
+
+    f = open(file,'r')
+    line = f.readline()
+    depth = int(line[len(line)-2])
 
     g = ig.Graph(n = len(labels),edges=edges, directed=False, vertex_attrs={'color':labels})
 
@@ -73,9 +98,12 @@ def generateGraph(file):
     layout = g.layout('grid')  
 
     ''' ---- Running basic algorithms ----'''
-    # print(g.get_shortest_paths(0,24))
+   
+    
+    return g
 
-    ''' ---- Plot the graph in matplotlib for visuals ----'''
+def visual2D(g):
+    layout = g.layout('grid')  
     fig, ax = plt.subplots()
     # ax.invert_yaxis() # reverse starting point of graph (vertex 0)
 
@@ -93,18 +121,37 @@ def generateGraph(file):
             va='top'  # Vertical alignment
         )
 
-    plt.show() #displays matplot graph
+    plt.show()
 
-    return g
+def visual3D(g):
+    edges = g.get_edgelist()
+    num_vertices = len(g.vs)
+    grid_size = int(np.round(num_vertices ** (1/3)))  
 
+    # Generate 3D coordinates (layout) for the vertices
+    x, y, z = np.meshgrid(range(grid_size), range(grid_size), range(grid_size))
+    coords = np.vstack([x.ravel(), y.ravel(), z.ravel()]).T
 
-# generateGraph("testFile-10.txt")      # 3.6 secs with visuals, 417 ms without
-# generateGraph("testFile-50.txt")      # 13.258 secs with visuals, 427 ms without
-# generateGraph("testFile-100.txt")     # 46.705 secs with visuals, 438 ms without
-# generateGraph("testFile-500.txt")     # 967ms without 
-# generateGraph("testFile-1000.txt")      # 2.522 secs without
-# generateGraph("out.txt")
-g = generateGraph("testFile-10-2D.txt")
+    # Plot the graph in 3D using matplotlib
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Plot vertices
+    ax.scatter(coords[:, 0], coords[:, 1], coords[:, 2], c=g.vs['color'], s=100)
+
+    # Plot edges
+    for e in edges:
+        start, end = e
+        ax.plot([coords[start][0], coords[end][0]], 
+                [coords[start][1], coords[end][1]], 
+                [coords[start][2], coords[end][2]], 'black')
+
+    # Add labels to the vertices
+    for i, (x, y, z) in enumerate(coords):
+        ax.text(x, y, z, str(i), color='black')
+
+    plt.show() 
+
 '''********* Filtering the Graph **********'''
 def filterGraph(graph):
     edgeList = graph.get_edgelist()
@@ -117,32 +164,16 @@ def filterGraph(graph):
             keptEdges.append(edge)
     
     filteredGraph = graph.subgraph_edges(keptEdges,delete_vertices = False)
-    layout = filteredGraph.layout("grid")
+
+    return filteredGraph
 
 
-    ''' Plot the graph in matplotlib for visuals '''
-    fig, ax = plt.subplots()
-    # ax.invert_yaxis() # reverse starting point of graph (vertex 0)
 
-    ig.plot(filteredGraph, target=ax, layout=layout,vertex_size=25,margin=5,vertex_label = None)
 
-    filteredGraph.vs['label']=[i for i in range(len(filteredGraph.vs))]
-    ''' generate the labels of each vertex value '''
-    for i, (x, y) in enumerate(layout):
-        
-        ax.text(
-            x, y - 0.2,  
-            filteredGraph.vs['label'][i],
-            fontsize=12,
-            color='black',  
-            ha='right',  # Horizontal alignment
-            va='top'  # Vertical alignment
-        )
-
-    plt.show() #displays matplot graph
-
-    numCC = filteredGraph.connected_components()
-    # print(numCC)
-
+g = generateGraph("testFiles/testFile-1000-3D.txt")
+# fg = filterGraph(g)
+# numCC = fg.connected_components()
+# print(numCC)
+# visual3D(fg)
  
-filterGraph(g)
+
