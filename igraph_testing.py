@@ -2,9 +2,7 @@ import igraph as ig
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
-import time 
-import psutil
-import os
+
 # import tracemalloc
 
 # Function to convert 0-based index to 1-based
@@ -190,33 +188,40 @@ def shortest_path(g,file):
         for i in range(numBottomRowVertices):
                 edgesToAdd.append([greenVertex,i+offset])
 
+    graph.add_edges(edgesToAdd)
+
     for x in range(numVertices):
         if graph.vs[x]['color'] == 'black':
-            listOfShortestPaths[x] = graph.shortest_paths(greenVertex,x)
+            listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
     
     return listOfShortestPaths
     
-    
 fileName = "2D-testFile/testFile-10-2D.txt"   
 
-startTime = time.time()
-g = generateGraph("2D-testFiles/testFile-10-2D.txt")
-endTime = time.time()
-print(f"time: {endTime-startTime}")
+# startTime = time.time()
+# g = generateGraph(fileName)
+# endTime = time.time()
+# print(f"time: {endTime-startTime}")
 
-process = psutil.Process(os.getpid())
-memBefore = process.memory_info().rss /1024.0
-generateGraph("2D-testFiles/testFile-10-2D.txt")
-memAfter = process.memory_info().rss / 1024.0 
-print(f"memory: {memAfter-memBefore}")
+# process = psutil.Process(os.getpid())
+# memBefore = process.memory_info().rss / 1024.0
+# generateGraph(fileName)
+# memAfter = process.memory_info().rss / 1024.0 
+# print(f"memory: {memAfter-memBefore}")
 
 
-g = generateGraph(fileName)
-fg = filterGraph(g)
-# numCC = fg.connected_components()
-# print(numCC)
+# g = generateGraph(fileName)
+# fg = filterGraph(g)
+# # numCC = fg.connected_components()
+# # print(numCC)
 
-visual2D(fg)
-print(shortest_path(g,fileName))
- 
+# visual2D(fg)
+# print(shortest_path(g,fileName))
+
+
+
+
+
+
+    
 
