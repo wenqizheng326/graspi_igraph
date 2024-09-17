@@ -55,9 +55,32 @@ def csvMaker(fileName, n, dim, count, graphGen, graphGenPar,graphFilt, graphFilt
         writer = csv.writer(file)
         writer.writerow(row)
 
-
-fileName = "2D-testFile/testFile-50-2D.txt"   
+fileName = "3D-testFile/testFile-10-3D.txt"   
 g = ig.generateGraph(fileName)
 fg = ig.filterGraph(g)
 
-csvMaker("output.csv", 50, 2, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [fg])
+csvMaker("Python-Igraph_3D_Test_Results.csv", 10, 3, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [fg])
+
+fileName = "3D-testFile/testFile-50-3D.txt"   
+g = ig.generateGraph(fileName)
+fg = ig.filterGraph(g)
+
+csvMaker("Python-Igraph_3D_Test_Results.csv", 50, 3, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [fg])
+
+fileName = "3D-testFile/testFile-100-3D.txt"   
+g = ig.generateGraph(fileName)
+fg = ig.filterGraph(g)
+
+csvMaker("Python-Igraph_3D_Test_Results.csv", 100, 3, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [fg])
+
+fileName = "3D-testFile/testFile-500-3D.txt"   
+g = ig.generateGraph(fileName)
+fg = ig.filterGraph(g)
+
+csvMaker("Python-Igraph_3D_Test_Results.csv", 500, 3, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [fg])
+
+fileName = "3D-testFile/testFile-1000-3D.txt"   
+g = ig.generateGraph(fileName)
+fg = ig.filterGraph(g)
+
+csvMaker("Python-Igraph_3D_Test_Results.csv", 1000, 3, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [fg])
