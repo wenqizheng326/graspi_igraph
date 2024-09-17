@@ -196,7 +196,7 @@ def shortest_path(g,file):
     
     return listOfShortestPaths
     
-fileName = "2D-testFile/testFile-10-2D.txt"   
+# fileName = "2D-testFile/testFile-10-2D.txt"   
 
 # startTime = time.time()
 # g = generateGraph(fileName)
