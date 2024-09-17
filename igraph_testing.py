@@ -2,13 +2,6 @@ import igraph as ig
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
-import time
-
-# import tracemalloc
-
-# Function to convert 0-based index to 1-based
-# def convert_to_1_based(index):
-#     return index 
 
 '''---------Function to create edges for graph in specified format --------'''
 def edge(fileName):
@@ -101,16 +94,9 @@ def generateGraph(file):
     line = f.readline()
     line = line.split()
     
-
     g = ig.Graph(n = int(line[0])*int(line[1])+ 1,edges=edges, directed=False, vertex_attrs={'color':labels})
 
-    # Generate labels starting from 1
-    # g.vs['label'] = [convert_to_1_based(i) for i in range(len(g.vs))]
-   
-    layout = g.layout('grid')  
-
-    ''' ---- Running basic algorithms ----'''
-   
+    layout = g.layout('grid')
     
     return g
 
@@ -179,7 +165,7 @@ def filterGraph(graph):
 
     return filteredGraph
 
-
+'''********* Shortest Path **********'''
 def shortest_path(graph):
     numVertices = graph.vcount()
     ccp = graph.connected_components()
@@ -193,41 +179,6 @@ def shortest_path(graph):
     
     return listOfShortestPaths
     
-# def shortest_path(graph):
-#     numVertices = graph.vcount()
-#     listOfShortestPaths = {}
-#     greenVertex = numVertices-1
-    
-#     for x in range(numVertices):
-#         if graph.vs[x]['color'] == 'black':
-#             listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
-    
-#     return listOfShortestPaths
-
-# fileName = "2D-testFile/testFile-500-2D.txt"  
-# g = generateGraph(fileName)
-# fg = filterGraph(g)
-# # shortestPath(fg)
- 
-# startTime = time.time()
-# shortestPath(fg)
-# endTime = time.time()
-# print(f"time: {endTime-startTime}")
-
-# # process = psutil.Process(os.getpid())
-# # memBefore = process.memory_info().rss / 1024.0
-# # generateGraph(fileName)
-# # memAfter = process.memory_info().rss / 1024.0 
-# # print(f"memory: {memAfter-memBefore}")
-
-
-# g = generateGraph(fileName)
-# fg = filterGraph(g)
-# # # numCC = fg.connected_components()
-# # # print(numCC)
-
-# # visual2D(fg)
-# print(shortest_path(g))
 
     
 
