@@ -193,7 +193,16 @@ def shortest_path(graph):
     
     return listOfShortestPaths
     
+# def shortest_path(graph):
+#     numVertices = graph.vcount()
+#     listOfShortestPaths = {}
+#     greenVertex = numVertices-1
     
+#     for x in range(numVertices):
+#         if graph.vs[x]['color'] == 'black':
+#             listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
+    
+#     return listOfShortestPaths
 
 # fileName = "2D-testFile/testFile-500-2D.txt"  
 # g = generateGraph(fileName)

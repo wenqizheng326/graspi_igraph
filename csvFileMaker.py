@@ -1,7 +1,8 @@
 import igraph_testing as ig
 import time 
-import psutil
-import os
+# import psutil
+# import os
+import tracemalloc
 import csv
 
 def functionRuntime(count,function, *argv):
@@ -20,13 +21,18 @@ def functionRuntime(count,function, *argv):
 
 def functionMemory(function, *argv):
 
-    process = psutil.Process(os.getpid())
-    memBefore = process.memory_info().rss / 1024.0
+    # process = psutil.Process(os.getpid())
+    # memBefore = process.memory_info().rss / 1024.0
+    tracemalloc.start
     function(*argv)
-    memAfter = process.memory_info().rss / 1024.0 
-    memUsage = memAfter - memBefore
+    stats = tracemalloc.get_traced_memory()
+    tracemalloc.stop
+    stats = stats[1] - stats[0]
+
+    # memAfter = process.memory_info().rss / 1024.0 
+    # memUsage = memAfter - memBefore
     
-    return memUsage
+    return stats
 
 def csvMaker(fileName, n, dim, count, graphGen, graphGenPar,graphFilt, graphFiltPar,shortPath, shortPathPar):
     row = [n,(n**dim)]
@@ -58,7 +64,8 @@ def csvMaker(fileName, n, dim, count, graphGen, graphGenPar,graphFilt, graphFilt
         writer.writerow(row)
 
 
-fileName = "2D-testFile/testFile-500-2D.txt"   
-g = ig.generateGraph(fileName)
+# fileName = "2D-testFile/testFile-1000-2D.txt"   
+# g = ig.generateGraph(fileName)
+# fg = ig.filterGraph(g)
 
-csvMaker("output.csv", 500, 2, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [g,fileName])
+# csvMaker("output.csv", 10, 2, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [fg])
