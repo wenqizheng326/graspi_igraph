@@ -5,12 +5,11 @@ import numpy as np
 import time 
 import psutil
 import os
-
+# import tracemalloc
 
 # Function to convert 0-based index to 1-based
 # def convert_to_1_based(index):
 #     return index 
-
 
 '''---------Function to create edges for graph in specified format --------'''
 def edge(fileName):
@@ -76,9 +75,9 @@ def vertexColors(fileName):
         lines = file.readlines()
         for line in lines[1:]:
             for char in line:
-                if char == '0':
+                if char == '1':
                     labels.append('white')
-                elif char == '1':
+                elif char == '0':
                     labels.append('black')
 
     return labels
@@ -170,6 +169,35 @@ def filterGraph(graph):
 
     return filteredGraph
 
+def shortest_path(g,file):
+    graph = filterGraph(g)
+    numVertices = graph.vcount()
+    greenVertex = numVertices
+    graph.add_vertices(1)
+    edgesToAdd = []
+    listOfShortestPaths = {}
+    numBottomLayers = 0
+    numBottomRowVertices = 0
+
+    with open(file,'r') as f:
+        line = f.readline()
+        line = line.split()
+        numBottomLayers = int(line[2])
+        numBottomRowVertices = int(line[0])
+
+    for x in range(numBottomLayers):
+        offset = x * numBottomLayers
+        for i in range(numBottomRowVertices):
+                edgesToAdd.append([greenVertex,i+offset])
+
+    for x in range(numVertices):
+        if graph.vs[x]['color'] == 'black':
+            listOfShortestPaths[x] = graph.shortest_paths(greenVertex,x)
+    
+    return listOfShortestPaths
+    
+    
+fileName = "2D-testFile/testFile-10-2D.txt"   
 
 startTime = time.time()
 g = generateGraph("2D-testFiles/testFile-10-2D.txt")
@@ -177,14 +205,18 @@ endTime = time.time()
 print(f"time: {endTime-startTime}")
 
 process = psutil.Process(os.getpid())
-memBefore = process.memory_info().rss 
-g = generateGraph("2D-testFiles/testFile-10-2D.txt")
-memAfter = process.memory_info().rss / 1024 
+memBefore = process.memory_info().rss /1024.0
+generateGraph("2D-testFiles/testFile-10-2D.txt")
+memAfter = process.memory_info().rss / 1024.0 
 print(f"memory: {memAfter-memBefore}")
 
-# fg = filterGraph(g)
+
+g = generateGraph(fileName)
+fg = filterGraph(g)
 # numCC = fg.connected_components()
 # print(numCC)
-# visual3D(fg)
+
+visual2D(fg)
+print(shortest_path(g,fileName))
  
 

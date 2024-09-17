@@ -7,21 +7,22 @@ def testFileMaker(num,depth,textFileName):
 
         f.write(str(num)+" "+str(num)+ " "+str(depth)+"\n")
 
-        for x in range(num):
-            for y in range((num-1)):
-                if x < num/2:
-                    f.write("1" + " ")
-                else:
-                    f.write("0" + " ")
+        for layer in range(depth):
+            for x in range(num):
+                for y in range((num-1)):
+                    if x < num/2:
+                        f.write("0" + " ")
+                    else:
+                        f.write("1" + " ")
 
-            if x < num/2:
-                f.write("1" + "\n")
-            else:
-                f.write("0" + "\n")
+                if x < num/2:
+                    f.write("0" + "\n")
+                else:
+                    f.write("1" + "\n")
 
     f.close()
 
     return "success"
 
-testFileMaker(1000,1,"testFile-1000-2D.txt")
         
+testFileMaker(1000,1,"2D-testFile/testFile-1000-2D.txt")
