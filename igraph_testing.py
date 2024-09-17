@@ -17,6 +17,9 @@ def edge(fileName):
     dimension = 0
     with open(fileName,'r') as file:
         line = file.readline()
+        splitLine = line.split()
+        numBottomLayers = int(splitLine[2])
+        numBottomRowVertices = int(splitLine[0])
         for i in line:
             if i != ' ':
                 n += i
@@ -34,7 +37,12 @@ def edge(fileName):
     edge = []
     secondToLastRow = num**2 - num
     offset = 0
+    greenVertex = num**2
 
+    for x in range(numBottomLayers):
+        offset = x * numBottomLayers
+        for i in range(numBottomRowVertices):
+                edge.append([greenVertex,i+offset])
 
     for z in range(dimension):
         offset = z * (num**2)
@@ -64,6 +72,8 @@ def edge(fileName):
             
     edge.append([(secondToLastRow+offset),(secondToLastRow+1+offset)]) # horizontal last row first column
 
+
+
     return edge
 
 '''------- Labeling the color of the vertices -------'''
@@ -88,9 +98,10 @@ def generateGraph(file):
 
     f = open(file,'r')
     line = f.readline()
-    depth = int(line[len(line)-2])
+    line = line.split()
+    
 
-    g = ig.Graph(n = len(labels),edges=edges, directed=False, vertex_attrs={'color':labels})
+    g = ig.Graph(n = int(line[0])*int(line[1])+ 1,edges=edges, directed=False, vertex_attrs={'color':labels})
 
     # Generate labels starting from 1
     # g.vs['label'] = [convert_to_1_based(i) for i in range(len(g.vs))]
@@ -167,61 +178,38 @@ def filterGraph(graph):
 
     return filteredGraph
 
-def shortest_path(g,file):
-    graph = filterGraph(g)
+def shortest_path(graph):
     numVertices = graph.vcount()
-    greenVertex = numVertices
-    graph.add_vertices(1)
-    edgesToAdd = []
     listOfShortestPaths = {}
-    numBottomLayers = 0
-    numBottomRowVertices = 0
-
-    with open(file,'r') as f:
-        line = f.readline()
-        line = line.split()
-        numBottomLayers = int(line[2])
-        numBottomRowVertices = int(line[0])
-
-    for x in range(numBottomLayers):
-        offset = x * numBottomLayers
-        for i in range(numBottomRowVertices):
-                edgesToAdd.append([greenVertex,i+offset])
-
-    graph.add_edges(edgesToAdd)
-
+    greenVertex = numVertices-1
+    
     for x in range(numVertices):
         if graph.vs[x]['color'] == 'black':
             listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
     
     return listOfShortestPaths
     
-# fileName = "2D-testFile/testFile-10-2D.txt"   
+fileName = "2D-testFile/testFile-10-2D.txt"   
 
 # startTime = time.time()
 # g = generateGraph(fileName)
-# endTime = time.time()
-# print(f"time: {endTime-startTime}")
+# # endTime = time.time()
+# # print(f"time: {endTime-startTime}")
 
-# process = psutil.Process(os.getpid())
-# memBefore = process.memory_info().rss / 1024.0
-# generateGraph(fileName)
-# memAfter = process.memory_info().rss / 1024.0 
-# print(f"memory: {memAfter-memBefore}")
+# # process = psutil.Process(os.getpid())
+# # memBefore = process.memory_info().rss / 1024.0
+# # generateGraph(fileName)
+# # memAfter = process.memory_info().rss / 1024.0 
+# # print(f"memory: {memAfter-memBefore}")
 
 
-# g = generateGraph(fileName)
+# # g = generateGraph(fileName)
 # fg = filterGraph(g)
-# # numCC = fg.connected_components()
-# # print(numCC)
+# # # numCC = fg.connected_components()
+# # # print(numCC)
 
-# visual2D(fg)
-# print(shortest_path(g,fileName))
-
-
-
-
-
+# # visual2D(fg)
+# print(shortest_path(g))
 
     
 
