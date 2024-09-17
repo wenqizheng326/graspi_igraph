@@ -18,10 +18,10 @@ def functionRuntime(count,function, *argv):
     return avgExecution
 
 def functionMemory(function, *argv):
-    tracemalloc.start
+    tracemalloc.start()
     function(*argv)
     stats = tracemalloc.get_traced_memory()
-    tracemalloc.stop
+    tracemalloc.stop()
     stats = stats[1] - stats[0]
     
     return stats
@@ -56,8 +56,8 @@ def csvMaker(fileName, n, dim, count, graphGen, graphGenPar,graphFilt, graphFilt
         writer.writerow(row)
 
 
-# fileName = "2D-testFile/testFile-1000-2D.txt"   
-# g = ig.generateGraph(fileName)
-# fg = ig.filterGraph(g)
+fileName = "2D-testFile/testFile-50-2D.txt"   
+g = ig.generateGraph(fileName)
+fg = ig.filterGraph(g)
 
-# csvMaker("output.csv", 10, 2, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [fg])
+csvMaker("output.csv", 50, 2, 3, ig.generateGraph, [fileName], ig.filterGraph, [g], ig.shortest_path, [fg])
