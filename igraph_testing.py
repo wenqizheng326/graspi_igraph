@@ -2,6 +2,7 @@ import igraph as ig
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+import time
 
 # import tracemalloc
 
@@ -178,23 +179,31 @@ def filterGraph(graph):
 
     return filteredGraph
 
+
 def shortest_path(graph):
     numVertices = graph.vcount()
+    ccp = graph.connected_components()
     listOfShortestPaths = {}
     greenVertex = numVertices-1
     
-    for x in range(numVertices):
-        if graph.vs[x]['color'] == 'black':
-            listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
+    for c in ccp:
+        if graph.vs[c]['color'] == 'black':
+            for x in c:
+                listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
     
     return listOfShortestPaths
     
-# fileName = "2D-testFile/testFile-10-2D.txt"   
+    
 
-# startTime = time.time()
+# fileName = "2D-testFile/testFile-500-2D.txt"  
 # g = generateGraph(fileName)
-# # endTime = time.time()
-# # print(f"time: {endTime-startTime}")
+# fg = filterGraph(g)
+# # shortestPath(fg)
+ 
+# startTime = time.time()
+# shortestPath(fg)
+# endTime = time.time()
+# print(f"time: {endTime-startTime}")
 
 # # process = psutil.Process(os.getpid())
 # # memBefore = process.memory_info().rss / 1024.0
@@ -203,7 +212,7 @@ def shortest_path(graph):
 # # print(f"memory: {memAfter-memBefore}")
 
 
-# # g = generateGraph(fileName)
+# g = generateGraph(fileName)
 # fg = filterGraph(g)
 # # # numCC = fg.connected_components()
 # # # print(numCC)
