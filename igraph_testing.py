@@ -31,12 +31,8 @@ def edge(fileName):
     edge = []
     secondToLastRow = num**2 - num
     offset = 0
-    greenVertex = num**2
+    greenVertex = num**2+1
 
-    for x in range(numBottomLayers):
-        offset = x * numBottomLayers
-        for i in range(numBottomRowVertices):
-                edge.append([greenVertex,i+offset])
 
     for z in range(dimension):
         offset = z * (num**2)
@@ -66,8 +62,6 @@ def edge(fileName):
             
     edge.append([(secondToLastRow+offset),(secondToLastRow+1+offset)]) # horizontal last row first column
 
-
-
     return edge
 
 '''------- Labeling the color of the vertices -------'''
@@ -92,12 +86,17 @@ def generateGraph(file):
 
     f = open(file,'r')
     line = f.readline()
-    line = line.split()
-    
-    g = ig.Graph(n = int(line[0])*int(line[1])+ 1,edges=edges, directed=False, vertex_attrs={'color':labels})
+    depth = int(line[len(line)-2])
 
-    layout = g.layout('grid')
-    
+    g = ig.Graph(n = len(labels),edges=edges, directed=False, vertex_attrs={'color':labels})
+
+    # Generate labels starting from 1
+    # g.vs['label'] = [convert_to_1_based(i) for i in range(len(g.vs))]
+   
+    layout = g.layout('grid')  
+
+    ''' ---- Running basic algorithms ----'''
+       
     return g
 
 def visual2D(g):
@@ -150,6 +149,8 @@ def visual3D(g):
 
     plt.show() 
 
+
+
 '''********* Filtering the Graph **********'''
 def filterGraph(graph):
     edgeList = graph.get_edgelist()
@@ -166,19 +167,35 @@ def filterGraph(graph):
     return filteredGraph
 
 '''********* Shortest Path **********'''
-def shortest_path(graph):
+def shortest_path(graph,file):
     numVertices = graph.vcount()
-    ccp = graph.connected_components()
+    greenVertex = numVertices
+    graph.add_vertices(1)
+    edgesToAdd = []
     listOfShortestPaths = {}
-    greenVertex = numVertices-1
-    
-    for c in ccp:
-        if graph.vs[c]['color'] == 'black':
-            for x in c:
-                listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
+    numBottomLayers = 0
+    numBottomRowVertices = 0
+
+    with open(file,'r') as f:
+        line = f.readline()
+        line = line.split()
+        numBottomLayers = int(line[2])
+        numBottomRowVertices = int(line[0])
+
+    for x in range(numBottomLayers):
+        offset = x * numBottomLayers
+        for i in range(numBottomRowVertices):
+                edgesToAdd.append([greenVertex,i+offset])
+
+    graph.add_edges(edgesToAdd)
+
+    for x in range(numVertices):
+        if graph.vs[x]['color'] == 'black':
+            listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
     
     return listOfShortestPaths
     
+
 
     
 
