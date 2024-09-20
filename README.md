@@ -71,12 +71,12 @@ shortest_path(fg)    #fg is a filtered graph object
 ## To visualize graphs
   -  for 2d graphs, call visual2D(_graph_)
 ```
-g = generateGraph("2D-testFile/testFile-10-2D.txt")     # utilizing the test file found in 2D-testFiles folder```
+g = generateGraph("2D-testFile/testFile-10-2D.txt")     # utilizing the test file found in 2D-testFiles folder
 visual2D(g)
 ```
   -  for 3d graphs, call visual3D(_graph_)
 ```
-g = generateGraph("3D-testFile/testFile-10-3D.txt")     # utilizing the test file found in 2D-testFiles folder```
+g = generateGraph("3D-testFile/testFile-10-3D.txt")     # utilizing the test file found in 2D-testFiles folder
 visual3D(g)
 ```
 Both take in a graph object
