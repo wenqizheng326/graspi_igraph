@@ -94,7 +94,6 @@ def generateGraph(file):
     
     g = ig.Graph(n = int(line[0])*int(line[1]),edges=edges, directed=False, vertex_attrs={'color':labels})
     g.vs[int(line[0])*int(line[1])]['color'] = 'green'
-    layout = g.layout('grid')
        
     return g
 
@@ -149,6 +148,7 @@ def visual3D(g):
     plt.show() 
 
 
+
 '''********* Filtering the Graph **********'''
 def filterGraph(graph):
     edgeList = graph.get_edgelist()
@@ -172,11 +172,11 @@ def shortest_path(graph):
     ccp = graph.connected_components()
     listOfShortestPaths = {}
     greenVertex = numVertices-1
-    print(ccp)
     
     for c in ccp:
         for x in c:
             if graph.vs[x]['color'] == 'black' or graph.vs[x]['color'] == 'green':
+                print()
                 listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
     
     return listOfShortestPaths
