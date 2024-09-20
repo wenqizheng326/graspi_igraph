@@ -31,8 +31,13 @@ def edge(fileName):
     edge = []
     secondToLastRow = num**2 - num
     offset = 0
-    greenVertex = num**2+1
+    greenVertex = num**2
 
+    for x in range(numBottomLayers):
+        offset = x * numBottomLayers
+        for i in range(numBottomRowVertices):
+            print(numBottomRowVertices)
+            edge.append([greenVertex,i+offset])
 
     for z in range(dimension):
         offset = z * (num**2)
@@ -78,7 +83,6 @@ def vertexColors(fileName):
 
     return labels
 
-
 '''********* Constructing the Graph **********'''
 def generateGraph(file):
     edges = edge(file)
@@ -86,21 +90,16 @@ def generateGraph(file):
 
     f = open(file,'r')
     line = f.readline()
-    depth = int(line[len(line)-2])
-
-    g = ig.Graph(n = len(labels),edges=edges, directed=False, vertex_attrs={'color':labels})
-
-    # Generate labels starting from 1
-    # g.vs['label'] = [convert_to_1_based(i) for i in range(len(g.vs))]
-   
-    layout = g.layout('grid')  
-
-    ''' ---- Running basic algorithms ----'''
+    line = line.split()
+    
+    g = ig.Graph(n = int(line[0])*int(line[1]),edges=edges, directed=False, vertex_attrs={'color':labels})
+    g.vs[int(line[0])*int(line[1])]['color'] = 'green'
+    layout = g.layout('grid')
        
     return g
 
 def visual2D(g):
-    layout = g.layout('grid')  
+    layout = g.layout('kk')  
     fig, ax = plt.subplots()
     # ax.invert_yaxis() # reverse starting point of graph (vertex 0)
 
@@ -150,7 +149,6 @@ def visual3D(g):
     plt.show() 
 
 
-
 '''********* Filtering the Graph **********'''
 def filterGraph(graph):
     edgeList = graph.get_edgelist()
@@ -161,41 +159,25 @@ def filterGraph(graph):
         toNode = edge[1]
         if(graph.vs[currentNode]['color'] == graph.vs[toNode]['color']):
             keptEdges.append(edge)
+        elif(graph.vs[currentNode]['color'] == 'green' or graph.vs[toNode]['color'] == 'green'):
+            keptEdges.append(edge)
     
     filteredGraph = graph.subgraph_edges(keptEdges,delete_vertices = False)
 
     return filteredGraph
 
 '''********* Shortest Path **********'''
-def shortest_path(graph,file):
+def shortest_path(graph):
     numVertices = graph.vcount()
-    greenVertex = numVertices
-    graph.add_vertices(1)
-    edgesToAdd = []
+    ccp = graph.connected_components()
     listOfShortestPaths = {}
-    numBottomLayers = 0
-    numBottomRowVertices = 0
-
-    with open(file,'r') as f:
-        line = f.readline()
-        line = line.split()
-        numBottomLayers = int(line[2])
-        numBottomRowVertices = int(line[0])
-
-    for x in range(numBottomLayers):
-        offset = x * numBottomLayers
-        for i in range(numBottomRowVertices):
-                edgesToAdd.append([greenVertex,i+offset])
-
-    graph.add_edges(edgesToAdd)
-
-    for x in range(numVertices):
-        if graph.vs[x]['color'] == 'black':
-            listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
+    greenVertex = numVertices-1
+    print(ccp)
+    
+    for c in ccp:
+        for x in c:
+            if graph.vs[x]['color'] == 'black' or graph.vs[x]['color'] == 'green':
+                listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
     
     return listOfShortestPaths
     
-
-
-    
-
