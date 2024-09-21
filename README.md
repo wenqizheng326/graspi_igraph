@@ -62,7 +62,7 @@ The number of connected components can be found by taking the length of the resu
 print(len(fg.connected_components())) 
 ```
 
-The shortest path between the bottom boundary to all the black vertices until the white vertices are reached can be found by calling the function shortest_path(_fiteredGraph_,_fileName_)
+The shortest path between the bottom boundary to all the black vertices until the white vertices are reached can be found by calling the function shortest_path(_fiteredGraph_)
   -  returns a dictionary of vertices and their corresponding path
 ```
 shortest_path(fg)    #fg is a filtered graph object
