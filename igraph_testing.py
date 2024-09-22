@@ -36,7 +36,6 @@ def edge(fileName):
     for x in range(numBottomLayers):
         offset = x * numBottomLayers
         for i in range(numBottomRowVertices):
-            print(numBottomRowVertices)
             edge.append([greenVertex,i+offset])
 
     for z in range(dimension):
@@ -176,7 +175,6 @@ def shortest_path(graph):
     for c in ccp:
         for x in c:
             if graph.vs[x]['color'] == 'black' or graph.vs[x]['color'] == 'green':
-                print()
                 listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")
     
     return listOfShortestPaths
