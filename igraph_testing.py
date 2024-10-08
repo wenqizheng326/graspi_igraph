@@ -173,12 +173,16 @@ def shortest_path(graph):
     greenVertex = numVertices-1
     
     for c in ccp:
-        for x in c:
-            if graph.vs[x]['color'] == 'black' or graph.vs[x]['color'] == 'green':
-                listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")[0]
+        if graph.vs[c]['color'] == 'black':
+            for x in c:
+                if graph.vs[x]['color'] == 'black' or graph.vs[x]['color'] == 'green':
+                    listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")[0]
     
     return listOfShortestPaths
 
 
+g = generateGraph("2D-testFile/testFile-500-2D.txt")
+fg = filterGraph(g)
+shortest_path(fg)
 
     
