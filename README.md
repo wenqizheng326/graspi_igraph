@@ -1,4 +1,4 @@
-# graspi_igraph
+# graspi_igraph_tests
 
 Python-Igraph is a graph-based library contender for the library that works with the GraSPI package. 
 
