@@ -169,14 +169,16 @@ def filterGraph(graph):
 
 
 def shortest_path(graph):
-    greenVertex = graph.vcount() - 1
-    target_vertices = [v.index for v in graph.vs if v['color'] == 'black' or v['color'] == 'green']
-
-    paths = graph.shortest_paths(source=greenVertex, target=target_vertices, mode="ALL", weights=None)
-
+    numVertices = graph.vcount()
+    ccp = graph.connected_components()
     listOfShortestPaths = {}
-    for idx, v in enumerate(target_vertices):
-        listOfShortestPaths[v] = paths[0][idx]  # Since we're using a single source (greenVertex)
+    greenVertex = numVertices - 1
+
+    for c in ccp:
+        if graph.vs[c]['color'] == 'black':
+            for x in c:
+                if graph.vs[x]['color'] == 'black' or graph.vs[x]['color'] == 'green':
+                    listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex, x, output="vpath")[0]
 
     return listOfShortestPaths
 
