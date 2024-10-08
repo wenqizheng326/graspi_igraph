@@ -171,9 +171,9 @@ def shortest_path(graph):
     ccp = graph.connected_components()
     listOfShortestPaths = {}
     greenVertex = numVertices-1
-    
+
     for c in ccp:
-        if graph.vs[c]['color'] == 'black':
+        if graph.vs[c]['color'] != 'white':
             for x in c:
                 if graph.vs[x]['color'] == 'black' or graph.vs[x]['color'] == 'green':
                     listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex,x,output="vpath")[0]

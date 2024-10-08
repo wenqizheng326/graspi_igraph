@@ -23,3 +23,5 @@ def testFileMaker(num,depth,textFileName):
     f.close()
 
     return "success"
+
+testFileMaker(10,1,"output.txt")
