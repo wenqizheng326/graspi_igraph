@@ -97,7 +97,7 @@ def generateGraph(file):
     return g
 
 def visual2D(g):
-    layout = g.layout('kk')  
+    layout = g.layout('kk')
     fig, ax = plt.subplots()
     # ax.invert_yaxis() # reverse starting point of graph (vertex 0)
 
@@ -107,10 +107,10 @@ def visual2D(g):
     for i, (x, y) in enumerate(layout):
         g.vs['label']=[i for i in range(len(g.vs))]
         ax.text(
-            x, y - 0.2,  
+            x, y - 0.2,
             g.vs['label'][i],
             fontsize=12,
-            color='black',  
+            color='black',
             ha='right',  # Horizontal alignment
             va='top'  # Vertical alignment
         )
@@ -149,21 +149,14 @@ def visual3D(g):
 
 
 '''********* Filtering the Graph **********'''
+
+
 def filterGraph(graph):
-    edgeList = graph.get_edgelist()
-    keptEdges = []
+    keptEdges = [edge for edge in graph.get_edgelist()
+                 if graph.vs[edge[0]]['color'] == graph.vs[edge[1]]['color']
+                 or 'green' in {graph.vs[edge[0]]['color'], graph.vs[edge[1]]['color']}]
 
-    for edge in edgeList:
-        currentNode = edge[0]
-        toNode = edge[1]
-        if(graph.vs[currentNode]['color'] == graph.vs[toNode]['color']):
-            keptEdges.append(edge)
-        elif(graph.vs[currentNode]['color'] == 'green' or graph.vs[toNode]['color'] == 'green'):
-            keptEdges.append(edge)
-    
-    filteredGraph = graph.subgraph_edges(keptEdges,delete_vertices = False)
-
-    return filteredGraph
+    return graph.subgraph_edges(keptEdges, delete_vertices=False)
 
 '''********* Shortest Path **********'''
 
