@@ -11,7 +11,7 @@ The basic algorithm requirements include:
   -  Graph visualization
 
 ## Installation
-Downloads needed can be found in requirements.txt
+Download the packages found in requirements.txt after you have set up your virtual environment. 
 ```
 pip install graspi-igraph
 ```
