@@ -50,6 +50,7 @@ jupyter notebook
   4.  click Run All Cells
  
 If running each code snippet separately: 
+
 **** _**Make sure to run each code segment in the notebook in order as it may be dependent on the one before**_ ****
 
 ## Further Explanation of Functionalities
