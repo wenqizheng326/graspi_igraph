@@ -33,7 +33,7 @@ There is an example of how to utilize the code and how it works in a Jupyter Not
 ** Make sure to run each code segment in the notebook in order as it may be dependent on the one before **
 
 ## Further Explanation of Functionalities
-#### To Generate Test Files
+### To Generate Test Files
 Test-input-files can be generated via the testFileMaker.py by calling the function testFileMaker(_num_,_depth_,_textFileName_)
   - the function takes in a number of rows for the test graph, the depth of the graph, and the output file name
   - to generate 2D graphs, set the depth to 1
@@ -51,7 +51,7 @@ ig.testFileMaker(10,1,"output.txt")
 ig.testFileMaker(10,5,"output.txt")
 ```
 
-#### To Test Algorithms
+### To Test Algorithms
 Import the igraph_testing.py file to access the functionalities
 
 To generate graphs, call the generateGraph(_file_) function which takes in a input-file name
@@ -86,14 +86,14 @@ Example:
 ig.shortest_path(fg,'black','blue',"black_to_blue_paths.txt")    #fg is a filtered graph object
 ```
 
-#### To get list of descriptors
+### To get list of descriptors
 A list of descriptors can be found by calling the function descriptors(_graph_, _fileName_)
 
 ```
 ig.descriptors(g,"descriptors_list.txt")      # g is a graph object
 ```
 
-#### To visualize graphs
+### To visualize graphs
   -  for 2d graphs, call visual2D(_graph_)
 ```
 g = ig.generateGraph("2D-testFile/testFile-10-2D.txt")     # utilizing the test file found in 2D-testFiles folder as an example
