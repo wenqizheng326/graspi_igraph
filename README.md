@@ -53,7 +53,7 @@ To run memory tests, run the following command in terminal:
 python main.py n dimension function
 ```
 **Make sure of the following:**
-  -  Replace "n" with the size of the graph you want
+  -  Replace "n" with the size of the graph you want. Note: n should be between 1-1000 inclusively 
   -  Replace "dimension" with 2D or 3D to specify if you want a 2D or 3D graph
   -  Replace "function" with either generate, filter, or shortest_path, to choose which function you want to test memory for
  
