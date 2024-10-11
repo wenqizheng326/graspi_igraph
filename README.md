@@ -30,6 +30,8 @@ import graspi_igraph as ig
 ## Example of Utilizing graspi_igraph via Jupyter Notebook
 There is an example of how to utilize the code and how it works in a Jupyter Notebook that can be found in the notebook folder, called graspi_igraph_notebook.ipynb.
 
+To run all code snippets, click the Run All button at the top of notebook
+
 **** _**Make sure to run each code segment in the notebook in order as it may be dependent on the one before**_ ****
 
 ## Further Explanation of Functionalities
