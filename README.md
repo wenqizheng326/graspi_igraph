@@ -8,6 +8,7 @@ The basic algorithm requirements include:
   -  Graph Filtering
   -  Determine the number of connected components
   -  Determine the shortest path from some meta-vertices to all specified vertices
+  -  Provide a list of descriptors
   -  Graph visualization
 
 ## Installation
@@ -21,13 +22,15 @@ Install the graspi_igraph package by:
 ```
 pip install graspi-graph
 ```
-Once installed, to utilize package remember to import the package:
+Once installed, to utilize the package remember to import the package:
 ```
 import graspi_igraph as ig
 ```
 
 ## Example of Utilizing graspi_igraph via Jupyter Notebook
-There is an example of how to utilize the code as well as how it works in a Jupyter Notebook that can be found in the notebook folder, called graspi_igraph_notebook.ipynb.
+There is an example of how to utilize the code and how it works in a Jupyter Notebook that can be found in the notebook folder, called graspi_igraph_notebook.ipynb.
+
+** Make sure to run each code segment in the notebook in order as it may be dependent on the one before **
 
 ## Further Explanation of Functionalities
 #### To Generate Test Files
