@@ -30,7 +30,7 @@ import graspi_igraph as ig
 ## Example of Utilizing graspi_igraph via Jupyter Notebook
 There is an example of how to utilize the code and how it works in a Jupyter Notebook that can be found in the notebook folder, called graspi_igraph_notebook.ipynb.
 
-** Make sure to run each code segment in the notebook in order as it may be dependent on the one before **
+**** _**Make sure to run each code segment in the notebook in order as it may be dependent on the one before**_ ****
 
 ## Further Explanation of Functionalities
 ### To Generate Test Files
@@ -52,7 +52,6 @@ ig.testFileMaker(10,5,"output.txt")
 ```
 
 ### To Test Algorithms
-Import the igraph_testing.py file to access the functionalities
 
 To **generate graphs**, call the generateGraph(_file_) function which takes in a input-file name
   -  returns a graph
@@ -77,7 +76,7 @@ The number of connected components can be found by taking the length of the resu
 print(len(fg.connected_components())) 
 ```
 
-The **shortest path **between some meta-vertices to all specified vertices calling the function shortest_path(_fiteredGraph_, _specifiedVertices_, _metaVertex_, _fileName_)
+The **shortest path** between some meta-vertices to all specified vertices calling the function shortest_path(_fiteredGraph_, _specifiedVertices_, _metaVertex_, _fileName_)
   -  stores the distance of the paths to from the _metaVertex_ to every single _specified Vertices_ in a text file called _fileName_
 
 Example:
@@ -87,13 +86,15 @@ ig.shortest_path(fg,'black','blue',"black_to_blue_paths.txt")    #fg is a filter
 ```
 
 ### To get list of descriptors
-A l**ist of descriptors** can be found by calling the function descriptors(_graph_, _fileName_)
+
+A **list of descriptors** can be found by calling the function descriptors(_graph_, _fileName_)
 
 ```
 ig.descriptors(g,"descriptors_list.txt")      # g is a graph object
 ```
 
 ### To visualize graphs
+
   -  for 2d graphs, call visual2D(_graph_)
 ```
 g = ig.generateGraph("2D-testFile/testFile-10-2D.txt")     # utilizing the test file found in 2D-testFiles folder as an example
