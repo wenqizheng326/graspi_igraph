@@ -4,7 +4,7 @@ setup(
     name = "graspi_igraph",
     author = "Wenqi Zheng",
     author_email = "wenqizhe@buffalo.edu",
-    version = "0.0.1.6",
+    version = "0.0.1.11",
     description = "Utilize Python-igraph to produce similar functionality as GraSPI",
     packages = find_packages(),
     classifiers = ["Programming Language :: Python"],
