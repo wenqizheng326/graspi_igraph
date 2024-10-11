@@ -69,6 +69,10 @@ Generating results
 Followed by the results after some time
 <br />
 <br />
+```
+Completed
+```
+To know that the tests have been completed
 ## To Test Algorithms
 
 To **generate graphs**, call the generateGraph(_file_) function which takes in a input-file name
@@ -124,6 +128,3 @@ g = ig.generateGraph("3D-testFile/testFile-10-3D.txt")     # utilizing the test 
 ig.visual3D(g)
 Finally, the following message will be printed out:
 ```
-Completed
-```
-To know that the tests have been completed
