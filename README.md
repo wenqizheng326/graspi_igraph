@@ -12,22 +12,23 @@ The basic algorithm requirements include:
 
 ## Installation
 First, you'd need to clone the repo by running the following command in your command line:
-<br />
-<br />
+```
+git clone git@github.com:wenqizheng326/graspi_igraph.git
+```
 **Note: You'd need git installed on your system first**
 <br />
 <br />
   If you do not have git installed or run into issues with git, please visit: https://github.com/git-guides/install-git
-```
-git clone git@github.com:wenqizheng326/graspi_igraph.git
-```
+<br />
+<br />
 Next, you'd need to navigate to the cloned repo using terminal. An example would be:
 ```
 cd /path/graspi_igraph
 ```
 Once navigated to the repo, downloads needed can be found in requirements.txt and can be installed by:
-<br />
-<br />
+```
+pip install -r requirements.txt
+```
 **Note: you must have Python and pip installed onto your system**
 <br />
 <br />
@@ -35,9 +36,8 @@ Once navigated to the repo, downloads needed can be found in requirements.txt an
 <br />
 <br />
   If you do not have pip installed or are running into issues with pip, please visit: https://pip.pypa.io/en/stable/installation/
-```
-pip install -r requirements.txt
-```
+<br />
+<br />
   If there are any other issues with installation, please visit: https://python.igraph.org/en/stable/ 
 
 ## Running memory tests
