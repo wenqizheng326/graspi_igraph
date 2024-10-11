@@ -24,5 +24,3 @@ def testFileMaker(num,depth,textFileName):
 
     return "success"
 
-        
-testFileMaker(10,1,"2D-testFile/testFile-10-2D.txt")

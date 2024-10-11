@@ -4,12 +4,14 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 '''---------Function to create edges for graph in specified format --------'''
+
+
 def edge(fileName):
     line = []
     n = ""
     d = ""
     dimension = 0
-    with open(fileName,'r') as file:
+    with open(fileName, 'r') as file:
         line = file.readline()
         splitLine = line.split()
         numBottomLayers = int(splitLine[2])
@@ -24,47 +26,55 @@ def edge(fileName):
                 d += i
             elif i == ' ':
                 break
-            
+
         dimension = int(d[::-1])
-  
+
     num = int(n)
     edge = []
-    secondToLastRow = num**2 - num
+    secondToLastRow = num ** 2 - num
     offset = 0
-    greenVertex = num**2
+    blueVertex = num ** 2
+    redVertex = num ** 2 + 1
+    topOffset = (num ** 2) - num
 
     for x in range(numBottomLayers):
         offset = x * numBottomLayers
         for i in range(numBottomRowVertices):
-            edge.append([greenVertex,i+offset])
+            edge.append([blueVertex, i + offset])
+
+    for x in range(numBottomLayers):
+        offset = x * numBottomLayers
+
+        for i in range(numBottomRowVertices):
+            edge.append([redVertex, i + offset + topOffset])
 
     for z in range(dimension):
-        offset = z * (num**2)
-        for y in range(num**2):
+        offset = z * (num ** 2)
+        for y in range(num ** 2):
             if z < (dimension - 1):
-                edge.append([y+offset,(y+offset+(num**2))])
+                edge.append([y + offset, (y + offset + (num ** 2))])
 
-
-        for x in range(0,secondToLastRow,num):
+        for x in range(0, secondToLastRow, num):
             x_num = x + num + offset
-            x_offset = x+offset
+            x_offset = x + offset
 
-            edge.append([x_offset,x_num])
-            edge.append([x_offset,x_num+1])
-            edge.append([x_offset,(x_offset+1)])
+            edge.append([x_offset, x_num])
+            edge.append([x_offset, x_num + 1])
+            edge.append([x_offset, (x_offset + 1)])
 
-            for i in range(1,num):
-                xi = x+i+offset
-                edge.append([xi,(xi+num)])
-                edge.append([(xi),(xi+(num-1))]) # right to left diagonals
+            for i in range(1, num):
+                xi = x + i + offset
+                edge.append([xi, (xi + num)])
+                edge.append([(xi), (xi + (num - 1))])  # right to left diagonals
 
-                if i < num-1:
-                    edge.append([xi,xi+1+num]) # left to right diagonals bottom row
-                    edge.append([xi,xi+1]) # horizontal except first column
+                if i < num - 1:
+                    edge.append([xi, xi + 1 + num])  # left to right diagonals bottom row
+                    edge.append([xi, xi + 1])  # horizontal except first column
                     if x == secondToLastRow - num:
-                        edge.append([secondToLastRow+i+offset,secondToLastRow+offset+i+1]) # horizontal last row except first column
-            
-    edge.append([(secondToLastRow+offset),(secondToLastRow+1+offset)]) # horizontal last row first column
+                        edge.append([secondToLastRow + i + offset,
+                                     secondToLastRow + offset + i + 1])  # horizontal last row except first column
+
+    edge.append([(secondToLastRow + offset), (secondToLastRow + 1 + offset)])  # horizontal last row first column
 
     return edge
 
@@ -80,7 +90,6 @@ def adjList(filename):
         current_node = 0
         for z in range(dimZ):
             for y in range(dimY):
-                file.readline()  # Skip the line, we don't need to store it
                 for x in range(dimX):
                     neighbors = []
 
@@ -233,8 +242,4 @@ def shortest_path(graph):
                     listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex, x, output="vpath")[0]
 
     return listOfShortestPaths
-
-g = generateGraphAdj("2D-testFile/testFile-10-2D.txt")
-visual2D(g)
-
     
