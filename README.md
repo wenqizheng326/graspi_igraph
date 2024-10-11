@@ -7,20 +7,30 @@ The basic algorithm requirements include:
   -  Construction of graphs
   -  Graph Filtering
   -  Determine the number of connected components
-  -  Determine the shortest path from the bottom boundary to all black vertices until the white vertices are met
+  -  Determine the shortest path from some meta-vertices to all specified vertices
   -  Graph visualization
 
 ## Installation
 Download the packages found in requirements.txt after you have set up your virtual environment. 
+Cone the repo by:
 ```
-pip install graspi-igraph
+git clone https://github.com/wenqizheng326/graspi_igraph.git
 ```
-Once installed, to utilize package:
+
+Install the graspi_igraph package by:
+```
+pip install graspi-graph
+```
+Once installed, to utilize package remember to import the package:
 ```
 import graspi_igraph as ig
 ```
 
-## To Generate Test Files
+## Example of Utilizing graspi_igraph via Jupyter Notebook
+There is an example of how to utilize the code as well as how it works in a Jupyter Notebook that can be found in the notebook folder, called graspi_igraph_notebook.ipynb.
+
+## Further Explanation of Functionalities
+#### To Generate Test Files
 Test-input-files can be generated via the testFileMaker.py by calling the function testFileMaker(_num_,_depth_,_textFileName_)
   - the function takes in a number of rows for the test graph, the depth of the graph, and the output file name
   - to generate 2D graphs, set the depth to 1
@@ -38,7 +48,7 @@ ig.testFileMaker(10,1,"output.txt")
 ig.testFileMaker(10,5,"output.txt")
 ```
 
-## To Test Algorithms
+#### To Test Algorithms
 Import the igraph_testing.py file to access the functionalities
 
 To generate graphs, call the generateGraph(_file_) function which takes in a input-file name
@@ -64,13 +74,23 @@ The number of connected components can be found by taking the length of the resu
 print(len(fg.connected_components())) 
 ```
 
-The shortest path between the bottom boundary to all the black vertices until the white vertices are reached can be found by calling the function shortest_path(_fiteredGraph_)
-  -  returns a dictionary of vertices and their corresponding path
+The shortest path between some meta-vertices to all specified vertices calling the function shortest_path(_fiteredGraph_, _specifiedVertices_, _metaVertex_, _fileName_)
+  -  stores the distance of the paths to from the _metaVertex_ to every single _specified Vertices_ in a text file called _fileName_
+
+Example:
+  - the example below finds the shortest path between all black vertices to the blue meta-vertex and stores it in the text file, black_to_blue_paths.txt
 ```
-ig.shortest_path(fg)    #fg is a filtered graph object
+ig.shortest_path(fg,'black','blue',"black_to_blue_paths.txt")    #fg is a filtered graph object
 ```
 
-## To visualize graphs
+#### To get list of descriptors
+A list of descriptors can be found by calling the function descriptors(_graph_, _fileName_)
+
+```
+ig.descriptors(g,"descriptors_list.txt")      # g is a graph object
+```
+
+#### To visualize graphs
   -  for 2d graphs, call visual2D(_graph_)
 ```
 g = ig.generateGraph("2D-testFile/testFile-10-2D.txt")     # utilizing the test file found in 2D-testFiles folder as an example
