@@ -31,7 +31,7 @@ Once navigated to the repo, downloads needed can be found in requirements.txt an
 <br />
   If you do not have Python installed, please visit: https://www.python.org/downloads/
   <br />
-  If you do not have pip installed or is running into issues with pip, please visit: https://pip.pypa.io/en/stable/installation/
+  If you do not have pip installed or are running into issues with pip, please visit: https://pip.pypa.io/en/stable/installation/
 ```
 pip install -r requirements.txt
 ```
@@ -63,7 +63,10 @@ After running this command, you should see
 ```
 Generating results
 ```
-Followed by the results after some time, and finally
+Followed by the results after some time
+<br />
+<br />
+Finally, the following message will be printed out:
 ```
 Completed
 ```
