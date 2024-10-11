@@ -69,7 +69,7 @@ Generating results
 Followed by the results after some time
 <br />
 <br />
-### To Test Algorithms
+## To Test Algorithms
 
 To **generate graphs**, call the generateGraph(_file_) function which takes in a input-file name
   -  returns a graph
