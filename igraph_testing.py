@@ -68,6 +68,48 @@ def edge(fileName):
 
     return edge
 
+
+def adjList(filename):
+    adjacency_list = {}
+    dimX = dimY = dimZ = 0
+
+    with open(filename, "r") as file:
+        header = file.readline().split(' ')
+        dimX, dimY, dimZ = int(header[0]), int(header[1]), int(header[2])
+
+        current_node = 0
+        for z in range(dimZ):
+            for y in range(dimY):
+                file.readline()  # Skip the line, we don't need to store it
+                for x in range(dimX):
+                    neighbors = []
+
+                    # Node to the left
+                    if x > 0:
+                        neighbors.append(current_node - 1)
+                    # Node to the bottom
+                    if y > 0:
+                        neighbors.append(current_node - dimX)
+                    # Node to Southwest
+                    if y > 0 and x > 0:
+                        neighbors.append(current_node - dimX - 1)
+                    # Node to Southeast
+                    if y > 0 and x < dimX - 1:
+                        neighbors.append(current_node - dimX + 1)
+                    # Node to previous dimension
+                    if z > 0:
+                        neighbors.append(current_node - dimX * dimY)
+
+                    adjacency_list[current_node] = neighbors
+                    current_node += 1
+
+    # Add blue and red nodes outside the loop
+    adjacency_list[dimZ * dimY * dimX] = list(range(dimX))
+    adjacency_list[dimZ * dimY * dimX + 1] = [i + dimX * (dimY - 1) for i in range(dimX)]
+
+    return adjacency_list
+
+
 '''------- Labeling the color of the vertices -------'''
 def vertexColors(fileName):
     labels = []
@@ -92,8 +134,25 @@ def generateGraph(file):
     line = line.split()
     
     g = ig.Graph(n = int(line[0])*int(line[1]),edges=edges, directed=False, vertex_attrs={'color':labels})
-    g.vs[int(line[0])*int(line[1])]['color'] = 'green'
+    g.vs[int(line[0]) * int(line[1])]['color'] = 'blue'
+    g.vs[int(line[0]) * int(line[1]) + 1]['color'] = 'red'
        
+    return g
+
+
+def generateGraphAdj(file):
+    edges = adjList(file)
+    labels = vertexColors(file)
+
+    f = open(file, 'r')
+    line = f.readline()
+    line = line.split()
+
+    g = ig.Graph.ListDict(edges=edges, directed=False)
+    g.vs["color"] = labels
+    g.vs[int(line[0]) * int(line[1])]['color'] = 'blue'
+    g.vs[int(line[0]) * int(line[1]) + 1]['color'] = 'red'
+
     return g
 
 def visual2D(g):
@@ -175,6 +234,7 @@ def shortest_path(graph):
 
     return listOfShortestPaths
 
-
+g = generateGraphAdj("2D-testFile/testFile-10-2D.txt")
+visual2D(g)
 
     

@@ -25,4 +25,4 @@ def testFileMaker(num,depth,textFileName):
     return "success"
 
         
-testFileMaker(1000,1,"2D-testFile/testFile-1000-2D.txt")
+testFileMaker(10,1,"2D-testFile/testFile-10-2D.txt")

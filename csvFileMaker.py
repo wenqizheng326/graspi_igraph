@@ -59,26 +59,26 @@ def csvMaker(fileName, n, dim, count, graphGen, graphGenPar,graphFilt, graphFilt
         writer.writerow(row)
 
 filename = "2D-testFile/testFile-10-2D.txt"
-g = ig.generateGraph(filename)
+g = ig.generateGraphAdj(filename)
 fg = ig.filterGraph(g)
-csvMaker("Python-Igraph_2D_New_Test_Results.csv", 10, 2, 3, ig.generateGraph, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
+csvMaker("Python-Igraph_2D_New_Test_Results.csv", 10, 2, 3, ig.generateGraphAdj, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
 
 filename = "2D-testFile/testFile-50-2D.txt"
-g = ig.generateGraph(filename)
+g = ig.generateGraphAdj(filename)
 fg = ig.filterGraph(g)
-csvMaker("Python-Igraph_2D_New_Test_Results.csv", 50, 2, 3, ig.generateGraph, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
+csvMaker("Python-Igraph_2D_New_Test_Results.csv", 50, 2, 3, ig.generateGraphAdj, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
 
 filename = "2D-testFile/testFile-100-2D.txt"
-g = ig.generateGraph(filename)
+g = ig.generateGraphAdj(filename)
 fg = ig.filterGraph(g)
-csvMaker("Python-Igraph_2D_New_Test_Results.csv", 100, 2, 3, ig.generateGraph, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
+csvMaker("Python-Igraph_2D_New_Test_Results.csv", 100, 2, 3, ig.generateGraphAdj, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
 
 filename = "2D-testFile/testFile-500-2D.txt"
-g = ig.generateGraph(filename)
+g = ig.generateGraphAdj(filename)
 fg = ig.filterGraph(g)
-csvMaker("Python-Igraph_2D_New_Test_Results.csv", 500, 2, 3, ig.generateGraph, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
+csvMaker("Python-Igraph_2D_New_Test_Results.csv", 500, 2, 3, ig.generateGraphAdj, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
 
 filename = "2D-testFile/testFile-1000-2D.txt"
-g = ig.generateGraph(filename)
+g = ig.generateGraphAdj(filename)
 fg = ig.filterGraph(g)
-csvMaker("Python-Igraph_2D_New_Test_Results.csv", 1000, 2, 3, ig.generateGraph, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
+csvMaker("Python-Igraph_2D_New_Test_Results.csv", 1000, 2, 3, ig.generateGraphAdj, [filename], ig.filterGraph, [g], ig.shortest_path, [fg])
