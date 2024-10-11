@@ -11,10 +11,11 @@ The basic algorithm requirements include:
   -  Graph visualization
 
 ## Installation
-First, you'd need to clone the repo by:
+First, you'd need to clone the repo by running the following command in your command line:
 <br />
 <br />
 **Note: You'd need git installed on your system first**
+<br />
 <br />
   If you do not have git installed or run into issues with git, please visit: https://github.com/git-guides/install-git
 ```
@@ -29,8 +30,10 @@ Once navigated to the repo, downloads needed can be found in requirements.txt an
 <br />
 **Note: you must have Python and pip installed onto your system**
 <br />
+<br />
   If you do not have Python installed, please visit: https://www.python.org/downloads/
-  <br />
+<br />
+<br />
   If you do not have pip installed or are running into issues with pip, please visit: https://pip.pypa.io/en/stable/installation/
 ```
 pip install -r requirements.txt
