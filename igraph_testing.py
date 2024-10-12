@@ -79,44 +79,75 @@ def edge(fileName):
     return edge
 
 
-def adjList(filename):
+def adjList(fileName):
     adjacency_list = {}
     dimX = dimY = dimZ = 0
 
-    with open(filename, "r") as file:
+    with open(fileName, "r") as file:
         header = file.readline().split(' ')
         dimX, dimY, dimZ = int(header[0]), int(header[1]), int(header[2])
 
-        current_node = 0
         for z in range(dimZ):
             for y in range(dimY):
                 for x in range(dimX):
+                    current_vertex = x * dimY * dimZ + y * dimZ + z
                     neighbors = []
 
-                    # Node to the left
-                    if x > 0:
-                        neighbors.append(current_node - 1)
-                    # Node to the bottom
-                    if y > 0:
-                        neighbors.append(current_node - dimX)
-                    # Node to Southwest
-                    if y > 0 and x > 0:
-                        neighbors.append(current_node - dimX - 1)
-                    # Node to Southeast
-                    if y > 0 and x < dimX - 1:
-                        neighbors.append(current_node - dimX + 1)
-                    # Node to previous dimension
-                    if z > 0:
-                        neighbors.append(current_node - dimX * dimY)
+                    for dz in [-1, 0, 1]:
+                        for dy in [-1, 0, 1]:
+                            for dx in [-1, 0, 1]:
+                                if dx == 0 and dy == 0 and dz == 0:
+                                    continue
 
-                    adjacency_list[current_node] = neighbors
-                    current_node += 1
+                                nx, ny, nz = x + dx, y + dy, z + dz
 
-    # Add blue and red nodes outside the loop
+                                if 0 <= nx < dimX and 0 <= ny < dimY and 0 <= nz < dimZ:
+                                    neighbor_vertex = nx * dimY * dimZ + ny * dimZ + nz
+
+                                    if neighbor_vertex not in neighbors and current_vertex not in adjacency_list.get(neighbor_vertex, []):
+                                        neighbors.append(neighbor_vertex)
+
+                    adjacency_list[current_vertex] = neighbors
+
     adjacency_list[dimZ * dimY * dimX] = list(range(dimX))
     adjacency_list[dimZ * dimY * dimX + 1] = [i + dimX * (dimY - 1) for i in range(dimX)]
 
     return adjacency_list
+
+def lattice(fileName):
+    with open(fileName, "r") as file:
+        header = file.readline().split(' ')
+        dimX, dimY, dimZ = int(header[0]), int(header[1]), int(header[2])
+        g = ig.Graph.Lattice(dim=[dimX, dimY, dimZ], circular=False, nei=1, directed=False)
+
+        # Assigns adjacent and diagonal edges
+        for z in range(dimZ):
+            for y in range(dimY):
+                for x in range(dimX):
+                    current_vertex = x * dimY * dimZ + y * dimZ + z
+
+                    offsets = [
+                        (-1, -1, -1), (-1, -1, 0), (-1, -1, 1),
+                        (-1, 0, -1), (-1, 0, 1),
+                        (-1, 1, -1), (-1, 1, 0), (-1, 1, 1),
+                        (0, -1, -1), (0, -1, 1),
+                        (0, 1, -1), (0, 1, 1),
+                        (1, -1, -1), (1, -1, 0), (1, -1, 1),
+                        (1, 0, -1), (1, 0, 1),
+                        (1, 1, -1), (1, 1, 0), (1, 1, 1)
+                    ]
+
+                    for dx, dy, dz in offsets:
+                        nx, ny, nz = x + dx, y + dy, z + dz
+
+                    if 0 <= nx < dimX and 0 <= ny < dimY and 0 <= nz < dimZ:
+                        neighbor_vertex = nx * dimY * dimZ + ny * dimZ + nz
+                        if not g.are_adjacent(current_vertex, neighbor_vertex):
+                            g.add_edge(current_vertex, neighbor_vertex)
+
+        labels = vertexColors(fileName)
+        g.vs["color"] = labels
+        return g
 
 
 '''------- Labeling the color of the vertices -------'''
@@ -165,7 +196,7 @@ def generateGraphAdj(file):
     return g
 
 def visual2D(g):
-    layout = g.layout('kk')
+    layout = g.layout('grid')
     fig, ax = plt.subplots()
     # ax.invert_yaxis() # reverse starting point of graph (vertex 0)
 
@@ -242,4 +273,3 @@ def shortest_path(graph):
                     listOfShortestPaths[x] = graph.get_shortest_paths(greenVertex, x, output="vpath")[0]
 
     return listOfShortestPaths
-    
