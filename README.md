@@ -20,7 +20,7 @@ git clone https://github.com/wenqizheng326/graspi_igraph.git
 
 Install the graspi_igraph package by:
 ```
-pip install graspi-graph
+pip install graspi-igraph
 ```
 Once installed, to utilize the package remember to import the package:
 ```
