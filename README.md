@@ -25,7 +25,11 @@ Next, you'd need to navigate to the cloned repo using terminal. An example would
 ```
 cd /path/graspi_igraph
 ```
-Once navigated to the repo, downloads needed can be found in requirements.txt and can be installed by:
+First, make sure you're on the memoryFix branch of the repo by running
+```
+git checkout memoryFix
+```
+Once navigated to the branch, downloads needed can be found in requirements.txt and can be installed by:
 ```
 pip install -r requirements.txt
 ```
@@ -41,13 +45,6 @@ pip install -r requirements.txt
   If there are any other issues with installation, please visit: https://python.igraph.org/en/stable/ 
 
 ## Running memory tests
-First, make sure you're on the memoryFix branch of the repo by running
-```
-git checkout memoryFix
-```
-After checking out the branch, you can now run the memory tests
-<br />
-<br />
 To run memory tests, run the following command in terminal:
 ```
 python main.py n dimension function
