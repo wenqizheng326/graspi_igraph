@@ -63,9 +63,10 @@ After running this command, you should see
 ```
 Generating results
 ```
-Followed by the memory usage and runtime results after some time. The following will print:
+Followed by the memory usage and runtime results after some time.
 <br />
 <br />
+ The following will print:
 ```
 Completed
 ```
