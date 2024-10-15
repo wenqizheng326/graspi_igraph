@@ -63,7 +63,7 @@ After running this command, you should see
 ```
 Generating results
 ```
-Followed by the results after some time
+Followed by the memory usage and runtime results after some time. The following will print:
 <br />
 <br />
 ```
