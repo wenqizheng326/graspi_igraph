@@ -87,25 +87,19 @@ def adjList(fileName):
         header = file.readline().split(' ')
         dimX, dimY, dimZ = int(header[0]), int(header[1]), int(header[2])
 
+        offsets = [(-1, -1, 0), (-1, 0, 0), (0, -1, 0), (0, 0, -1), (1, -1, 0)]
+
         for z in range(dimZ):
             for y in range(dimY):
                 for x in range(dimX):
                     current_vertex = x * dimY * dimZ + y * dimZ + z
                     neighbors = []
 
-                    for dz in [-1, 0, 1]:
-                        for dy in [-1, 0, 1]:
-                            for dx in [-1, 0, 1]:
-                                if dx == 0 and dy == 0 and dz == 0:
-                                    continue
-
-                                nx, ny, nz = x + dx, y + dy, z + dz
-
-                                if 0 <= nx < dimX and 0 <= ny < dimY and 0 <= nz < dimZ:
-                                    neighbor_vertex = nx * dimY * dimZ + ny * dimZ + nz
-
-                                    if neighbor_vertex not in neighbors and current_vertex not in adjacency_list.get(neighbor_vertex, []):
-                                        neighbors.append(neighbor_vertex)
+                    for dx, dy, dz in offsets:
+                        nx, ny, nz = x + dx, y + dy, z + dz
+                        if 0 <= nx < dimX and 0 <= ny < dimY and 0 <= nz < dimZ:
+                            neighbor_vertex = nx * dimY * dimZ + ny * dimZ + nz
+                            neighbors.append(neighbor_vertex)
 
                     adjacency_list[current_vertex] = neighbors
 
@@ -118,7 +112,12 @@ def lattice(fileName):
     with open(fileName, "r") as file:
         header = file.readline().split(' ')
         dimX, dimY, dimZ = int(header[0]), int(header[1]), int(header[2])
+        batch_size = dimX * dimY * dimZ / 10
         g = ig.Graph.Lattice(dim=[dimX, dimY, dimZ], circular=False, nei=1, directed=False)
+
+        offsets = [(-1, -1, 0), (-1, 0, 0), (0, -1, 0), (0, 0, -1), (1, -1, 0)]
+
+        edges = []
 
         # Assigns adjacent and diagonal edges
         for z in range(dimZ):
@@ -126,25 +125,15 @@ def lattice(fileName):
                 for x in range(dimX):
                     current_vertex = x * dimY * dimZ + y * dimZ + z
 
-                    offsets = [
-                        (-1, -1, -1), (-1, -1, 0), (-1, -1, 1),
-                        (-1, 0, -1), (-1, 0, 1),
-                        (-1, 1, -1), (-1, 1, 0), (-1, 1, 1),
-                        (0, -1, -1), (0, -1, 1),
-                        (0, 1, -1), (0, 1, 1),
-                        (1, -1, -1), (1, -1, 0), (1, -1, 1),
-                        (1, 0, -1), (1, 0, 1),
-                        (1, 1, -1), (1, 1, 0), (1, 1, 1)
-                    ]
-
                     for dx, dy, dz in offsets:
                         nx, ny, nz = x + dx, y + dy, z + dz
+                        if 0 <= nx < dimX and 0 <= ny < dimY and 0 <= nz < dimZ:
+                            neighbor_vertex = nx * dimY * dimZ + ny * dimZ + nz
+                            edges.append((current_vertex, neighbor_vertex))
 
-                    if 0 <= nx < dimX and 0 <= ny < dimY and 0 <= nz < dimZ:
-                        neighbor_vertex = nx * dimY * dimZ + ny * dimZ + nz
-                        if not g.are_adjacent(current_vertex, neighbor_vertex):
-                            g.add_edge(current_vertex, neighbor_vertex)
-
+                    if len(edges) >= batch_size:
+                        g.add_edges(edges)
+                        edges = []
         labels = vertexColors(fileName)
         g.vs["color"] = labels
         return g
