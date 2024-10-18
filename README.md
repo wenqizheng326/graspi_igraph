@@ -44,10 +44,11 @@ pip install notebook
 jupyter notebook
 ```
 - once the command has run, it opens up a Jupyter notebook in a browser, then:
-  1.  open the folder called notebook
-  2.  open the file called _graspi_igraph_notebook.ipynb_
-  3.  click the Run tab bringing you to a drop-down menu
-  4.  click Run All Cells
+  1.  make sure you are currently in the graspi-igraph folder, if not, open folder called graspi-igraph
+  3.  open the folder called notebook
+  4.  open the file called _graspi_igraph_notebook.ipynb_
+  5.  click the Run tab bringing you to a drop-down menu
+  6.  click Run All Cells
  
 If running each code snippet separately: 
 
