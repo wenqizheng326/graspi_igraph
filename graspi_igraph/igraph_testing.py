@@ -106,8 +106,11 @@ def generateGraph(file):
 
     return g
 
-def visual2D(g):
-    layout = g.layout('reingold_tilford')  
+def visual2D(g,type):
+    if type == 'graph' :
+        layout = g.layout('reingold_tilford')  
+    else:
+        layout = g.layout('grid')  
     # fig, ax = plt.subplots()
     # ax.invert_yaxis() # reverse starting point of graph (vertex 0)
     fig,ax = plt.subplots(figsize=(10, 10))
@@ -170,14 +173,71 @@ def filterGraph(graph):
         toNode = edge[1]
         if(graph.vs[currentNode]['color'] == graph.vs[toNode]['color']):
             keptEdges.append(edge)
-        elif(graph.vs[currentNode]['color'] == 'blue' or graph.vs[toNode]['color'] == 'blue'):
-            keptEdges.append(edge)
-        elif(graph.vs[currentNode]['color'] == 'red' or graph.vs[toNode]['color'] == 'red'):
-            keptEdges.append(edge)
-    
-    filteredGraph = graph.subgraph_edges(keptEdges,delete_vertices = False)
+        # elif(graph.vs[currentNode]['color'] == 'blue' or graph.vs[toNode]['color'] == 'blue'):
+        #     keptEdges.append(edge)
+        # elif(graph.vs[currentNode]['color'] == 'red' or graph.vs[toNode]['color'] == 'red'):
+        #     keptEdges.append(edge)
+   
+    filteredGraph = graph.subgraph_edges(keptEdges,delete_vertices = True)
 
     return filteredGraph
+
+'''**************** Connected Components *******************'''
+def connectedComponents(graph):
+    vertices = graph.vcount()
+    edgeList = set(graph.get_edgelist())
+    fg = filterGraph(graph)
+    cc = fg.connected_components()
+    redVertex = None;
+    blueVertex = None;
+    blackCCList = []
+    whiteCCList = []
+
+    for vertex in range(vertices - 1, -1, -1):
+        color = graph.vs[vertex]['color']
+        if color == 'blue':
+            blueVertex = vertex
+        elif color == 'red':
+            redVertex = vertex
+        if blueVertex is not None and redVertex is not None:
+            break
+
+    blackCCList = [c for c in cc if fg.vs[c[0]]['color'] == 'black']
+    whiteCCList = [c for c in cc if fg.vs[c[0]]['color'] == 'white']
+
+    for c in blackCCList:
+        passedRed = False
+        passedBlue = False
+        for vertex in c:
+            if not passedRed:
+                if (vertex,redVertex) in edgeList or (redVertex,vertex) in edgeList:
+                    c.append(redVertex)
+                    passedRed = True
+            if not passedBlue:
+                if (vertex,blueVertex) in edgeList or (blueVertex,vertex) in edgeList:
+                    c.append(blueVertex)
+                    passedBlue = True
+            if passedBlue and passedRed:
+                break
+
+    for c in whiteCCList:
+        passedRed = False
+        passedBlue = False
+        for vertex in c:
+            if not passedRed:
+                if (vertex,redVertex) in edgeList or (redVertex,vertex) in edgeList:
+                    c.append(redVertex)
+                    passedRed = True
+            if not passedBlue:
+                if (vertex,blueVertex) in edgeList or (blueVertex,vertex) in edgeList:
+                    c.append(blueVertex)
+                    passedBlue = True
+            if passedBlue and passedRed:
+                break
+
+    connected_comp = whiteCCList + blackCCList
+
+    return connected_comp
 
 '''********* Shortest Path **********'''
 def shortest_path(graph,vertices,toVertex,fileName):

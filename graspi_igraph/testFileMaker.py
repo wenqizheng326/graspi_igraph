@@ -24,3 +24,4 @@ def testFileMaker(num,depth,textFileName):
 
     return "success"
 
+testFileMaker(4,1,"t.txt")
